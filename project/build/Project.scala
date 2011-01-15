@@ -7,7 +7,7 @@ class Project(info: ProjectInfo) extends PluginProject(info) {
   val aquteModuleConfig = ModuleConfiguration("biz.aQute", aquteRepo)
 
   // Dependencies (compile)
-  val bnd = "biz.aQute" % "bndlib" % "0.0.384"
+  val bnd = "biz.aQute" % "bndlib" % "0.0.401"
 
   // Dependencies (test)
   val specs = "org.scala-tools.testing" % "specs" % "1.6.2.1" % "test"
