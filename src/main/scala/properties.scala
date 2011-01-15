@@ -169,6 +169,23 @@ private[bnd4sbt] trait BNDPluginProperties extends ProjectAccessor {
    */
   protected def bndClasspath: PathFinder = project.projectClasspath(Compile) +++ project.providedClasspath
 
+  /**
+   * The value of the <code>-wab</code> property for bnd.
+   *
+   * This property specifies that the project is a Web Application Bundle, moving classes to WEB-INF/classes.
+   * Resources enumerated in this sequence are then moved to root of the archive.
+   * @see http://www.aqute.biz/Bnd/Format#wab
+   */
+  protected def bndWab: Seq[String] = Nil
+
+  /**
+   * The value of the <code>-wablib</code> property for bnd.
+   *
+   * This property specifies libraries that should be included in the created wab file.
+   * @see http://www.aqute.biz/Bnd/Format#wab
+   */
+  protected def bndWabLib: Seq[String] = Nil
+
   private[bnd4sbt] def bundleClasspath =
     if (bndEmbedDependencies) Set(".") ++ (project.publicClasspath.get filter { !_.isDirectory } map { _.name })
     else Set(".")
@@ -187,7 +204,7 @@ private[bnd4sbt] trait BNDPluginProperties extends ProjectAccessor {
 }
 
 /**
- * Gives access to a SBT project.
+ *    Gives access to a SBT project.
  */
 private[bnd4sbt] trait ProjectAccessor {
 

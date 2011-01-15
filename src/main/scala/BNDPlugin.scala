@@ -77,7 +77,6 @@ trait BNDPlugin extends DefaultProject with BNDPluginProperties {
     for ( v <- bndBundleVendor ) { properties.setProperty(BUNDLE_VENDOR, v) }
     for ( l  <- bndBundleLicense ) { properties.setProperty(BUNDLE_LICENSE, l) }
     properties.setProperty(BUNDLE_REQUIREDEXECUTIONENVIRONMENT, bndExecutionEnvironment mkString ",")
-    properties.setProperty(BUNDLE_CLASSPATH, bundleClasspath mkString ",")
     properties.setProperty(PRIVATE_PACKAGE, bndPrivatePackage mkString ",")
     properties.setProperty(EXPORT_PACKAGE, bndExportPackage mkString ",")
     properties.setProperty(IMPORT_PACKAGE, bndImportPackage mkString ",")
@@ -89,6 +88,12 @@ trait BNDPlugin extends DefaultProject with BNDPluginProperties {
     properties.setProperty(INCLUDE_RESOURCE, resourcesToBeIncluded mkString ",")
     for ( v <- bndVersionPolicy ) { properties.setProperty(VERSIONPOLICY, v) }
     if (bndNoUses) properties.setProperty(NOUSES, "true")
+
+    // WAB support
+    if (!bndWab.isEmpty) properties.setProperty(WAB, bndWab mkString ",")
+    else properties.setProperty(BUNDLE_CLASSPATH, bundleClasspath mkString ",")
+
+    if (!bndWabLib.isEmpty) properties.setProperty(WABLIB, bndWabLib mkString ",")
 
     log debug "Using the following properties for BND: %s".format(properties)
     properties
