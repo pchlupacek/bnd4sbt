@@ -99,7 +99,7 @@ class BNDPluginPropertiesSpec extends Specification with Mockito {
     """return "." for bndEmbedDependencies false""" in {
       new BNDPluginProperties {
         override val project = mock[DefaultProject]
-        bundleClasspath mustEqual Set(".")
+        bundleClasspathCalculated mustEqual Set(".")
       }
     }
 

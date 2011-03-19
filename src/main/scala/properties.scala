@@ -112,6 +112,11 @@ private[bnd4sbt] trait BNDPluginProperties extends ProjectAccessor {
   protected def bndExportPackage: Seq[String] = Nil
 
   /**
+   *  Export specified packages from jars, but not extract them into jar
+   */
+  protected def bndExportContents: Seq[String] = Nil
+
+  /**
    * The value for <code>Import-Package</code>. Defaults to
    * <code>""scala.*;version=[%1$s,%1$s]".format(project.buildScalaVersion) ::  "*" :: Nil</code>,
    * i.e. Scala is imported only in the exact version which is used to build this project.
@@ -177,9 +182,17 @@ private[bnd4sbt] trait BNDPluginProperties extends ProjectAccessor {
    */
   protected def bndClasspath: PathFinder = project.projectClasspath(Compile) +++ project.providedClasspath
 
-  private[bnd4sbt] def bundleClasspath =
+  /**
+   * Additional Bundle-Classpath entry to one automatically generated. Default implementation had only (.) as posile entry.
+   */
+  protected def bundleClassPath : Option[Set[String]] = None
+
+  private[bnd4sbt] def bundleClasspathCalculated =
     if (bndEmbedDependencies) Set(".") ++ (project.publicClasspath.get filter { !_.isDirectory } map { _.name })
-    else Set(".")
+    else bundleClassPath match {
+		case None => Set(".")
+		case Some(cp) => Set(".") ++ cp 
+	}
 
   private[bnd4sbt] def resourcesToBeIncluded = {
     val classpathResources = project.publicClasspath.get filter { _ != project.mainCompilePath } map { _.absolutePath }
