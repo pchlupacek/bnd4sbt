@@ -95,7 +95,7 @@ trait BNDPlugin extends DefaultProject with BNDPluginProperties {
     for ( activator <- bndBundleActivator ) { properties.setProperty(BUNDLE_ACTIVATOR, activator) }
 
     // Directives
-    properties.setProperty(INCLUDE_RESOURCE, resourcesToBeIncluded mkString ",")
+    properties.setProperty(INCLUDERESOURCE, resourcesToBeIncluded mkString ",")
     for ( v <- bndVersionPolicy ) { properties.setProperty(VERSIONPOLICY, v) }
     if (bndNoUses) properties.setProperty(NOUSES, "true")
 

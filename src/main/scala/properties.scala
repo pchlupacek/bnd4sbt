@@ -152,6 +152,11 @@ private[bnd4sbt] trait BNDPluginProperties extends ProjectAccessor {
   protected def bndEmbedDependencies = false
 
   /**
+   * When dependencies are embeded, this allows to exclude all resource Dependencies
+   */ 
+  protected def bndExcludeResourceDependencies = true
+
+  /**
    * The value for the <code>versionpolicy</code> directive, wrapped in an <code>Option</code>.
    * Defaults to <code>None</code>, i.e. no version policy is defined.
    */
@@ -202,8 +207,16 @@ private[bnd4sbt] trait BNDPluginProperties extends ProjectAccessor {
         case _ => None
       }
     }
-    if (bndEmbedDependencies) bndIncludeResource ++ classpathResources ++ resourceResources
-    else bndIncludeResource
+    if (bndEmbedDependencies) {
+	    if (bndExcludeResourceDependencies) {
+		  bndIncludeResource ++ classpathResources
+	    } else {
+		  bndIncludeResource ++ classpathResources ++ resourceResources
+	    }
+		
+	} else {
+		bndIncludeResource
+	}
   }
 }
 
